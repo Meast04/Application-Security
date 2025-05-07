@@ -19,7 +19,7 @@ const getAllUsers = async (role: Role): Promise<User[]> => {
 
 
 const getByEmail = async (email: string): Promise<User> => {
-    const user = await userDb.getByEmail({ email });
+    const user = await userDb.getByEmail( email );
     if (!user) {
         throw new Error(`No user found with email: ${email}`);
     }
@@ -28,7 +28,7 @@ const getByEmail = async (email: string): Promise<User> => {
 };
 
 const createUser = async (user: UserInput): Promise<User> => {
-    const existingUser = await userDb.getByEmail({ email: user.email });
+    const existingUser = await userDb.getByEmail(user.email);
 
     if (existingUser) {
         throw new Error(`User with email: ${user.email} already exists.`);
@@ -53,7 +53,7 @@ const authenticate = async ({
     email: string;
     password: string;
 }): Promise<AuthenticationResponse> => {
-    const foundUser = await userDb.getByEmail({ email });
+    const foundUser = await userDb.getByEmail( email );
 
     if (!foundUser) {
         throw new Error(`User with email: ${email} does not exist.`);
@@ -96,6 +96,25 @@ const updateUser = async (userId: number, user: UserInput): Promise<User> => {
     return userDb.updateUser(userId, updatedUser);
 };
 
+const changePassword = async (email: string, oldPassword: string, newPassword: string): Promise<User> => {
+    if (!email || email.trim() === '') {
+        throw new Error('Email is required');
+    }
+    const user = await userDb.getByEmail( email);
+    if (!user) {
+        throw new Error('No user found');
+    }
+
+    const isPasswordValid = await bcrypt.compare(oldPassword, user.getPassword());
+    if (!isPasswordValid) {
+        throw new Error('Old password is incorrect');
+    }
+
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+    return userDb.changePassword(email, hashedNewPassword);
+}
+
 const deleteUser = async (userId: number): Promise<User> => {
     const user = await userDb.deleteUser(userId);
     if (!user) {
@@ -122,4 +141,5 @@ export default {
     updateUser,
     deleteUser,
     getById,
+    changePassword,
 };

@@ -156,6 +156,11 @@ const UserLoginForm: React.FC = () => {
             >
                 {t('UserLoginForm.registerButton')}
             </Link>
+            <Link
+                href="/"
+                className='"mt-6 w-1/3 py-3 text-center text-blue-900 font-semibold rounded-lg hover:underline transition duration-300 cursor-pointer'>
+                    Password forgotten?
+            </Link>
         </>
     );
 };

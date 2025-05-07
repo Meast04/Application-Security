@@ -49,7 +49,7 @@ const createShoppingcart = async (
 ): Promise<Shoppingcart> => {
     const newShoppingcart = new Shoppingcart(shoppingcart);
 
-    const user = await userDb.getByEmail({ email });
+    const user = await userDb.getByEmail( email );
 
     if (!user) {
         throw new Error('User not found');

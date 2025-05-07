@@ -73,6 +73,7 @@ const userRouter = express.Router();
 interface AuthenticatedRequest extends Request {
     auth: {
         role: Role;
+        email: string;
     };
 }
 
@@ -319,6 +320,22 @@ userRouter.put('/:userId', async (req: Request, res: Response, next: NextFunctio
         const userId = parseInt(req.params.userId);
         const user = req.body as UserInput;
         const updatedUser = await userService.updateUser(userId, user);
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        next(error);
+    }
+});
+
+
+
+userRouter.put('/changePassword/', async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { email} = (req as AuthenticatedRequest).auth;
+        if (!email) {
+            return res.status(403).json({ message: 'Email is required' });
+        }
+        const { oldPassword, newPassword } = req.body;
+        const updatedUser = await userService.changePassword(email, oldPassword, newPassword);
         res.status(200).json(updatedUser);
     } catch (error) {
         next(error);

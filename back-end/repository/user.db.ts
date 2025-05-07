@@ -53,7 +53,7 @@ const getAlluserswithroleuser = async (): Promise<User[]> => {
     }
 };
 
-const getByEmail = async ({ email }: { email: string }): Promise<User | null> => {
+const getByEmail = async (email: string): Promise<User | null> => {
     try {
         const userPrisma = await db.user.findUnique({
             where: {
@@ -142,6 +142,35 @@ const updateUser = async (userId: number, user: User): Promise<User> => {
     }
 };
 
+const changePassword = async (email:string, newPassword: string): Promise<User> => {
+    try {
+        const userPrisma = await db.user.update({
+            where: {
+                email: email,
+            },
+            data: {
+                password: newPassword,
+            },
+            include: {
+                shoppingcarts: {
+                    include: {
+                        items: {
+                            include: {
+                                item: true,
+                            },
+                        },
+                    },
+                },
+            },
+        });
+
+        return User.from(userPrisma);
+    } catch (error) {
+        console.log(error);
+        throw new Error('Could not change password');
+    }
+}
+
 const deleteUser = async (userId: number): Promise<User> => {
     try {
         const shoppingCarts = await db.shoppingcart.findMany({
@@ -229,4 +258,5 @@ export default {
     deleteUser,
     getById,
     getAlluserswithroleuser,
+    changePassword,
 };
