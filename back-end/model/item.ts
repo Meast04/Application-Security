@@ -5,11 +5,11 @@ import { Nutritionlabel } from './nutritionlabel';
 
 export class Item {
     private id?: number;
-    private name: string;
-    private price: number;
-    private pathToImage: string;
-    private category: Category;
-    private nutritionlabel?: Nutritionlabel | null;
+    readonly name: string;
+    readonly price: number;
+    readonly pathToImage: string;
+    readonly category: Category;
+    readonly nutritionlabel?: Nutritionlabel | null;
 
     constructor(item: {
         id?: number;

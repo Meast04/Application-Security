@@ -166,12 +166,12 @@ const ItemAdminOverview: React.FC = () => {
                                                             : 'ItemAdminOverview.nutritionLabel.add'
                                                     )}
                                                 </Link>
-                                                <a
+                                                <button
                                                     className="block rounded-b-lg px-4 py-2 text-sm text-gray-700 hover:bg-red-500 hover:text-white transition-all duration-200 cursor-pointer"
                                                     onClick={() => handleDeleteItem(item.id)}
                                                 >
                                                     {t('ItemAdminOverview.actions.deleteItem')}
-                                                </a>
+                                                </button>
                                             </div>
                                         )}
                                     </td>

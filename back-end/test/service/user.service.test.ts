@@ -21,7 +21,7 @@ test('given: a filled userDb, when: getting all users from userService, then: al
     userDb.getAll = mockUserDbGetAllUsers.mockReturnValue(users);
 
     // when getting all users from userService
-    await userService.getAllUsers();
+    await userService.getAllUsers(user1.role);
 
     // then all users are returned
     expect(mockUserDbGetAllUsers).toHaveBeenCalled();

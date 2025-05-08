@@ -63,6 +63,11 @@ const Header: React.FC = () => {
                                 )}
                             </>
                         )}
+                        {loggedInUser && (
+                            <li>
+                                <Link href="/account">Account</Link>
+                            </li>
+                        )}
 
                         {loggedInUser ? (
                             <li>

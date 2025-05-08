@@ -2,8 +2,7 @@ import itemDb from '../../repository/item.db';
 import shoppingcartDb from '../../repository/shoppingcart.db';
 import userDb from '../../repository/user.db';
 import shoppingcartService from '../../service/shoppingcart.service';
-import { ShoppingcartInput, UserInput } from '../../types';
-import { ItemInput } from '../../types';
+import { ShoppingcartInput, UserInput,ItemInput } from '../../types';
 import bcrypt from 'bcrypt';
 
 // Mocking shoppingcartDb to get all shoppingcarts

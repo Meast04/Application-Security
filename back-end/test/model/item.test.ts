@@ -1,5 +1,4 @@
 import { Item } from '../../model/item';
-import { Nutritionlabel } from '../../model/nutritionlabel';
 import { Category } from '../../types';
 
 test('given: valid values for a item, when: item is constructed, then: item is created with those values', () => {

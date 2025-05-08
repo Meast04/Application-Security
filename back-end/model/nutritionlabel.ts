@@ -2,13 +2,13 @@ import { Nutritionlabel as NutritionlabelPrisma } from '@prisma/client';
 
 export class Nutritionlabel {
     private id?: number | undefined;
-    private energy: number;
-    private fat: number;
-    private saturatedFats: number;
-    private carbohydrates: number;
-    private sugar: number;
-    private protein: number;
-    private salts: number;
+    readonly energy: number;
+    readonly fat: number;
+    readonly saturatedFats: number;
+    readonly carbohydrates: number;
+    readonly sugar: number;
+    readonly protein: number;
+    readonly salts: number;
 
     constructor(nutritionlabel: {
         id?: number;

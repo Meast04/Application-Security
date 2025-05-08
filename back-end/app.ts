@@ -9,16 +9,65 @@ import { Request, Response, NextFunction } from 'express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { expressjwt } from 'express-jwt';
-import { he } from 'date-fns/locale';
 import helmet from 'helmet';
+import pino from 'pino';
+import pinoHttp from 'pino-http';
 
 const app = express();
 app.use(helmet());
+
+app.use(
+    helmet.contentSecurityPolicy({
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'"],
+      }
+    })
+  );
 dotenv.config();
 const port = process.env.APP_PORT || 3000;
 
-app.use(cors({ origin: 'http://localhost:8080' }));
+app.use(cors({ origin: 'http://localhost:8000' }));
 app.use(express.json());
+
+const logToFile = pino(
+    pino.transport({
+        target: 'pino-pretty',
+        options: { singleLine: true, destination: 'logs/app.log' },
+    })
+);
+
+app.use(
+    pinoHttp({
+        logger: logToFile,
+        customSuccessMessage(req, res) {
+            return `${req.method} ${req.url} ${res.statusCode}`;
+        },
+        customLogLevel(req, res, err) {
+            if (res.statusCode >= 500 || err) return 'error';
+            if (res.statusCode >= 400) return 'warn';
+            if (res.statusCode === 304) return 'warn';
+            return 'info';
+        },
+        serializers: {
+            req(req) {
+                const { password, ...safeBody } = req.raw.body || {};
+                return {
+                    id: req.id,
+                    method: req.method,
+                    url: req.url,
+                    timestamp: new Date().toISOString(),
+                    body: safeBody,
+                };
+            },
+            res(res) {
+                return {
+                    statusCode: res.statusCode,
+                };
+            },
+        },
+    })
+);
 
 // Swagger docs
 const swaggerOptions = {

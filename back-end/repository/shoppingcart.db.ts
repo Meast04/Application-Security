@@ -163,7 +163,7 @@ const addItemToShoppingcart = async ({
             return shoppingcartPrisma ? Shoppingcart.from(shoppingcartPrisma) : undefined;
         } else {
             // If item doesn't exist, create new relationship with quantity 1
-            const updatedShoppingcart = await db.shoppingcart.update({
+            await db.shoppingcart.update({
                 where: {
                     id: shoppingcart.getId(),
                 },

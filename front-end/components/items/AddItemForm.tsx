@@ -86,7 +86,7 @@ const AddItemForm: React.FC = () => {
                     const errorData = await response.json();
                     setStatusMessages([
                         {
-                            message: errorData?.message || t('error: unknownError'),
+                            message: errorData?.message ?? t('error: unknownError'),
                             type: 'error',
                         },
                     ]);

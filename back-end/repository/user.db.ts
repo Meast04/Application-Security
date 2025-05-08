@@ -81,7 +81,7 @@ const getByEmail = async (email: string): Promise<User | null> => {
         console.log(error);
         throw new Error('Could not get user by email');
     }
-};
+};  
 
 const createUser = async (user: User): Promise<User> => {
     try {

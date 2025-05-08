@@ -13,9 +13,9 @@ interface CartItem {
 }
 
 export class Shoppingcart {
-    private id?: number | undefined;
-    private name: string;
-    private deliveryDate: Date;
+    readonly id?: number | undefined;
+    readonly name: string;
+    readonly deliveryDate: Date;
     private user?: User;
     private items: CartItem[] = [];
 

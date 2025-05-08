@@ -8,11 +8,11 @@ import {
 } from '@prisma/client';
 
 export class User {
-    private id?: number | undefined;
-    private email: string;
-    private password: string;
-    private role: Role;
-    private shoppingcarts: Shoppingcart[];
+    readonly id?: number | undefined;
+    readonly email: string;
+    readonly password: string;
+    readonly role: Role;
+    readonly shoppingcarts: Shoppingcart[];
 
     constructor(user: {
         id?: number;

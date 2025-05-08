@@ -71,6 +71,20 @@ const getUserById = async (token: string, userId: string) => {
     });
 };
 
+const updateUsersPassword = async (token: string, oldPassword: string, newPassword: string) => {
+    return fetch(process.env.NEXT_PUBLIC_API_URL + '/users/changePassword', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+            oldPassword,
+            newPassword,
+        }),
+    });
+};
+
 const UserService = {
     login,
     register,
@@ -79,6 +93,7 @@ const UserService = {
     deleteUser,
     updateUser,
     getUserById,
+    updateUsersPassword,
 };
 
 export default UserService;

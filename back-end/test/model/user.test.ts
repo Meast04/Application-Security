@@ -1,7 +1,6 @@
 import { set } from 'date-fns';
 import { Shoppingcart } from '../../model/shoppingcart';
 import { User } from '../../model/user';
-import { Role } from '../../types';
 
 test('given: valid values for a user, when: user is constructed, then: user is created with those values', () => {
     // given valid values for a user

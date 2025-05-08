@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Item, Shoppingcart, Category } from '@types';
-import { ChevronDown, Minus, Plus } from 'lucide-react';
+import {  Minus, Plus } from 'lucide-react';
 import { useTranslation } from 'next-i18next';
 
 type Props = {
@@ -89,7 +89,7 @@ const AddItemToShoppingcartOverview: React.FC<Props> = ({
                         value={nameFilter}
                         onChange={(e) => setNameFilter(e.target.value)}
                         placeholder={
-                            t('addItemToShoppingcartOverview.filters.placeholderName') as string
+                            t('addItemToShoppingcartOverview.filters.placeholderName')
                         }
                     />
                 </div>

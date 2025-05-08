@@ -315,7 +315,7 @@ userRouter.post('/login', async (req: Request, res: Response, next: NextFunction
  *       500:
  *         description: Internal server error
  */
-userRouter.put('/:userId', async (req: Request, res: Response, next: NextFunction) => {
+userRouter.put('/id/:userId', async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userId = parseInt(req.params.userId);
         const user = req.body as UserInput;
@@ -326,15 +326,52 @@ userRouter.put('/:userId', async (req: Request, res: Response, next: NextFunctio
     }
 });
 
-
-
-userRouter.put('/changePassword/', async (req: Request, res: Response, next: NextFunction) => {
+/**
+ * @swagger
+ * /users/changePassword:
+ *   put:
+ *     summary: Change user password
+ *     description: Allows a user to change their password. Requires authentication.
+ *     tags:
+ *       - users
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - oldPassword
+ *               - newPassword
+ *             properties:
+ *               oldPassword:
+ *                 type: string
+ *                 description: The user's current password
+ *                 format: password
+ *               newPassword:
+ *                 type: string
+ *                 description: The user's new password
+ *                 format: password
+ *     responses:
+ *       200:
+ *         description: Password successfully changed
+ *       400:
+ *         description: Bad request - Invalid password data
+ *       401:
+ *         description: Unauthorized - Invalid credentials or token expired
+ */
+userRouter.put('/changePassword', async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { email} = (req as AuthenticatedRequest).auth;
+        const { email } = (req as AuthenticatedRequest).auth;
         if (!email) {
             return res.status(403).json({ message: 'Email is required' });
         }
         const { oldPassword, newPassword } = req.body;
+        if (!oldPassword || !newPassword) {
+            return res.status(400).json({ message: 'Old password and new password are required' });
+        }
         const updatedUser = await userService.changePassword(email, oldPassword, newPassword);
         res.status(200).json(updatedUser);
     } catch (error) {
